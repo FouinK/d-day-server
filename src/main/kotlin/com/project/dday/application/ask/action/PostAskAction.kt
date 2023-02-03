@@ -1,4 +1,4 @@
-package com.project.dday.action.ask
+package com.project.dday.application.ask.action
 
 import com.project.dday.model.Ask
 import com.project.dday.repository.AskRepository

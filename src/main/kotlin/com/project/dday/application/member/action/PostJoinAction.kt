@@ -1,4 +1,4 @@
-package com.project.dday.action.member
+package com.project.dday.application.member.action
 
 import com.project.dday.model.Member
 import com.project.dday.repository.MemberRepository

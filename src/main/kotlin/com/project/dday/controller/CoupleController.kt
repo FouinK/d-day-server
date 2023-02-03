@@ -1,6 +1,6 @@
 package com.project.dday.controller
 
-import com.project.dday.action.couple.PostCoupleConnectAction
+import com.project.dday.application.couple.action.PostCoupleConnectAction
 import com.project.dday.dto.CoupleConnectRequestDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

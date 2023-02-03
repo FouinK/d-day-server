@@ -1,6 +1,6 @@
 package com.project.dday.user
 
-import com.project.dday.action.member.PostJoinAction
+import com.project.dday.application.member.action.PostJoinAction
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
