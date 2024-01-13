@@ -7,7 +7,7 @@ import jakarta.persistence.*
 class Answer(
     id: Int? = null,
     content: String,
-    user: User,
+    member: Member,
 ) : BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +21,6 @@ class Answer(
     var status: Status = Status.READY
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    val user: User = user
+    @JoinColumn(name = "member_id")
+    val member: Member = member
 }

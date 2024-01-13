@@ -6,19 +6,19 @@ import jakarta.persistence.*
 @Table(name = "couple")
 class Couple(
     id: Int? = null,
-    user1: Int,
-    user2: Int,
+    member1: Int,
+    member2: Int,
 ) : BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = id
         private set
 
-    @Column(name = "user1_id")
-    var user1: Int = user1
+    @Column(name = "member1_id")
+    var member1: Int = member1
         private set
 
-    @Column(name = "user2_id")
-    var user2: Int = user2
+    @Column(name = "member2_id")
+    var member2: Int = member2
         private set
 }

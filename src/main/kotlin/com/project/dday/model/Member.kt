@@ -3,8 +3,8 @@ package com.project.dday.model
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "user")
-class User(
+@Table(name = "member")
+class Member(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int? = null,
@@ -12,6 +12,6 @@ class User(
     @Column(name = "idfv", nullable = false, unique = true)
     val idfv: String,
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     val askList: List<Ask>? = null,
 ) : BaseTimeEntity()

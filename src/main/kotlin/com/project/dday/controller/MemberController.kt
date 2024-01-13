@@ -1,6 +1,6 @@
 package com.project.dday.user
 
-import com.project.dday.service.UserService
+import com.project.dday.service.MemberService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/myTestApp/server/v1/user")
-class UserController(
-    private val userService: UserService,
+class MemberController(
+    private val memberService: MemberService,
 ) {
     @PostMapping
     fun join(
         @RequestParam("idfv") idfv: String,
     ): ResponseEntity<Any> {
-        userService.join(idfv)
+        memberService.join(idfv)
         return ResponseEntity(HttpStatus.CREATED)
     }
 }
