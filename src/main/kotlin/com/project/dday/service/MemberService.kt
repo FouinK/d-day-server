@@ -9,9 +9,11 @@ class MemberService(
     private val memberRepository: MemberRepository,
 ) {
     fun join(idfv: String) {
-        val newMember = Member(
-            idfv = idfv,
-        )
-        memberRepository.save(newMember)
+        if (!memberRepository.existsByIdfv(idfv = idfv)) {
+            val newMember = Member(
+                idfv = idfv,
+            )
+            memberRepository.save(newMember)
+        }
     }
 }
