@@ -16,4 +16,9 @@ class MemberService(
             memberRepository.save(newMember)
         }
     }
+
+    fun validateLoginMember(memberId: Int): Member {
+        return memberRepository.findById(memberId)
+            .orElseThrow { IllegalArgumentException("") }
+    }
 }

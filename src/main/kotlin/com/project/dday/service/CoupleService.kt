@@ -36,4 +36,11 @@ class CoupleService(
 
         coupleRepository.save(newData)
     }
+
+    fun validateCouple(memberId: Int): Couple {
+        return coupleRepository.findByMember1OrMember2(
+            member1 = memberId,
+            member2 = memberId,
+        ) ?: throw IllegalArgumentException("나는 커플 상태가 아닙니다.")
+    }
 }

@@ -1,9 +1,10 @@
 package com.project.dday.controller
 
+import com.project.dday.action.GetAnswerListAction
+import com.project.dday.action.PostAnswerAction
 import com.project.dday.dto.AnswerRequestDto
 import com.project.dday.dto.AnswerResponseDto
 import com.project.dday.model.AnswerStatus
-import com.project.dday.service.AnswerService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
@@ -19,17 +20,19 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/myTestApp/server/v1/answer")
 class AnswerController(
-    private val answerService: AnswerService,
+    private val getAnswerListAction: GetAnswerListAction,
+    private val postAnswerAction: PostAnswerAction,
 ) {
     @GetMapping
     fun list(
         @RequestParam("memberId") memberId: Int,
         @PageableDefault(size = 10, page = 0, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
     ): ResponseEntity<Any> {
-        val response = answerService.getAnswerList(
+        val response = getAnswerListAction.getAnswerList(
             memberId = memberId,
             pageable = pageable,
         )
+
         return ResponseEntity.ok(
             AnswerResponseDto(
                 page = response.totalPages,
@@ -49,7 +52,7 @@ class AnswerController(
         @RequestParam("memberId") memberId: Int,
         @RequestBody request: AnswerRequestDto,
     ): ResponseEntity<Any> {
-        answerService.answer(
+        postAnswerAction.answer(
             memberId = memberId,
             content = request.content,
             askId = request.askId,
