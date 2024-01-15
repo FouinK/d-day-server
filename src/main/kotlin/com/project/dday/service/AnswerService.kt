@@ -24,6 +24,7 @@ class AnswerService(
     ): Page<Answer> {
         val member = memberRepository.findById(memberId)
             .orElseThrow { IllegalArgumentException("") }
+        // TODO : querydsl 추가해야함
         return answerRepository.findByMember(member, pageable)
     }
 
