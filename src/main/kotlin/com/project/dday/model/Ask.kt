@@ -18,7 +18,8 @@ class Ask(
     var content: String = content
         private set
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "ENUM('READY','COMPLETE')")
+    @Enumerated(EnumType.STRING)
     var status: AnswerStatus = AnswerStatus.READY
 
     @ManyToOne(fetch = FetchType.LAZY)

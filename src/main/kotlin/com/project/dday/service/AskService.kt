@@ -6,6 +6,7 @@ import com.project.dday.repository.MemberRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
 
 @Service
@@ -22,6 +23,7 @@ class AskService(
         return askRepository.findByMember(member, pageable)
     }
 
+    @Transactional
     fun ask(
         memberId: Int,
         content: String,
