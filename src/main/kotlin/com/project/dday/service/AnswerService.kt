@@ -7,6 +7,7 @@ import com.project.dday.repository.MemberRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import kotlin.IllegalArgumentException
 
 @Service
@@ -24,6 +25,7 @@ class AnswerService(
         return answerRepository.findByMember(member, pageable)
     }
 
+    @Transactional
     fun answer(
         memberId: Int,
         content: String,
@@ -38,6 +40,10 @@ class AnswerService(
         if (answerRepository.existsByAskId(ask.id!!)) {
             throw IllegalArgumentException("이미 답변했습니다.")
         }
+
+        ask.answer()
+
+        askRepository.save(ask)
 
         val newData = Answer(
             content = content,

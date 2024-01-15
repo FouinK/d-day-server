@@ -24,6 +24,10 @@ class Ask(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     val member: Member = member
+
+    fun answer() {
+        this.status = AnswerStatus.COMPLETE
+    }
 }
 
 enum class AnswerStatus {
