@@ -1,8 +1,9 @@
-package com.project.dday.user
+package com.project.dday.controller
 
-import com.project.dday.dto.AskListResponseDto
-import com.project.dday.dto.AskRequestDto
-import com.project.dday.service.AskService
+import com.project.dday.dto.AnswerRequestDto
+import com.project.dday.dto.AnswerResponseDto
+import com.project.dday.model.AnswerStatus
+import com.project.dday.service.AnswerService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
@@ -16,27 +17,27 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/myTestApp/server/v1/ask")
-class AskController(
-    private val askService: AskService,
+@RequestMapping("/myTestApp/server/v1/answer")
+class AnswerController(
+    private val answerService: AnswerService,
 ) {
     @GetMapping
     fun list(
         @RequestParam("memberId") memberId: Int,
         @PageableDefault(size = 10, page = 0, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
     ): ResponseEntity<Any> {
-        val response = askService.getAskList(
+        val response = answerService.getAnswerList(
             memberId = memberId,
             pageable = pageable,
         )
         return ResponseEntity.ok(
-            AskListResponseDto(
+            AnswerResponseDto(
                 page = response.totalPages,
                 totalElement = response.totalElements.toInt(),
                 items = response.content.map {
-                    AskListResponseDto.Item(
+                    AnswerResponseDto.Item(
                         content = it.content,
-                        status = it.status,
+                        status = AnswerStatus.READY, // TODO : 수정해야함
                     )
                 },
             ),
@@ -44,14 +45,16 @@ class AskController(
     }
 
     @PostMapping
-    fun ask(
+    fun answer(
         @RequestParam("memberId") memberId: Int,
-        @RequestBody request: AskRequestDto,
+        @RequestBody request: AnswerRequestDto,
     ): ResponseEntity<Any> {
-        askService.ask(
+        answerService.answer(
             memberId = memberId,
             content = request.content,
+            askId = request.askId,
         )
+
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.*
 class Answer(
     id: Int? = null,
     content: String,
+    askId: Int,
     member: Member,
 ) : BaseTimeEntity() {
     @Id
@@ -17,15 +18,10 @@ class Answer(
     @Column(name = "content")
     val content: String = content
 
-    @Column(name = "status")
-    var status: AnswerStatus = AnswerStatus.READY
+    @Column(name = "ask_id")
+    val askId: Int = askId
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     val member: Member = member
-}
-
-enum class AnswerStatus {
-    READY,
-    COMPLETE,
 }
