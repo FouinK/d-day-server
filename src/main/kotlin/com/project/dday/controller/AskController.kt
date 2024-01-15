@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 class AskController(
     private val askService: AskService,
 ) {
+
+    // TODO : answer이랑 ask 둘다 테이블에서 member_id 관계 끊기
     @GetMapping
     fun list(
         @RequestParam("memberId") memberId: Int,
