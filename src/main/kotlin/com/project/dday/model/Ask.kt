@@ -14,19 +14,19 @@ class Ask(
     var id: Int? = id
         private set
 
-    @Column(name = "ask_content")
+    @Column(name = "content")
     var content: String = content
         private set
 
     @Column(name = "status")
-    var status: Status = Status.READY
+    var status: AskStatus = AskStatus.READY
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     val member: Member = member
 }
 
-enum class Status {
+enum class AskStatus {
     READY,
     COMPLETE,
 }

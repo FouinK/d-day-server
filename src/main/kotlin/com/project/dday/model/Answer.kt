@@ -18,9 +18,14 @@ class Answer(
     val content: String = content
 
     @Column(name = "status")
-    var status: Status = Status.READY
+    var status: AnswerStatus = AnswerStatus.READY
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     val member: Member = member
+}
+
+enum class AnswerStatus {
+    READY,
+    COMPLETE,
 }
