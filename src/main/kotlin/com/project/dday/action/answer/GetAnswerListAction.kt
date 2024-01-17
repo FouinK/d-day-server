@@ -1,4 +1,4 @@
-package com.project.dday.action
+package com.project.dday.action.answer
 
 import com.project.dday.model.Answer
 import com.project.dday.repository.AnswerRepository

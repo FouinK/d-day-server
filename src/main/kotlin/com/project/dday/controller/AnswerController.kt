@@ -1,7 +1,7 @@
 package com.project.dday.controller
 
-import com.project.dday.action.GetAnswerListAction
-import com.project.dday.action.PostAnswerAction
+import com.project.dday.action.answer.GetAnswerListAction
+import com.project.dday.action.answer.PostAnswerAction
 import com.project.dday.dto.AnswerRequestDto
 import com.project.dday.dto.AnswerResponseDto
 import com.project.dday.model.AnswerStatus
