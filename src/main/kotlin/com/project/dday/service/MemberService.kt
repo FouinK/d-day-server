@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service
 class MemberService(
     private val memberRepository: MemberRepository,
 ) {
-
     fun validateLoginMember(memberId: Int): Member {
         return memberRepository.findById(memberId)
             .orElseThrow { IllegalArgumentException("") }
