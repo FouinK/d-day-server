@@ -8,14 +8,6 @@ import org.springframework.stereotype.Service
 class MemberService(
     private val memberRepository: MemberRepository,
 ) {
-    fun join(idfv: String) {
-        if (!memberRepository.existsByIdfv(idfv = idfv)) {
-            val newMember = Member(
-                idfv = idfv,
-            )
-            memberRepository.save(newMember)
-        }
-    }
 
     fun validateLoginMember(memberId: Int): Member {
         return memberRepository.findById(memberId)
