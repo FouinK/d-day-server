@@ -1,4 +1,4 @@
-package com.project.dday.action.answer
+package com.project.dday.application.answer.action
 
 import com.project.dday.model.Answer
 import com.project.dday.repository.AnswerRepository
@@ -25,7 +25,7 @@ class PostAnswerAction(
     ) {
         val member = memberService.validateLoginMember(memberId = memberId)
 
-        val ask = askService.validateAsk(askId = askId)
+        val ask = askService.findExistsAsk(askId = askId)
 
         val couple = coupleService.validateCouple(memberId = memberId)
 

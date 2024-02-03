@@ -1,4 +1,4 @@
-package com.project.dday.action.couple
+package com.project.dday.application.couple.action
 
 import com.project.dday.model.Couple
 import com.project.dday.repository.CoupleRepository

@@ -1,7 +1,7 @@
 package com.project.dday.user
 
-import com.project.dday.action.ask.GetAskListAction
-import com.project.dday.action.ask.PostAskAction
+import com.project.dday.application.ask.action.GetAskListAction
+import com.project.dday.application.ask.action.PostAskAction
 import com.project.dday.dto.AskListResponseDto
 import com.project.dday.dto.AskRequestDto
 import org.springframework.data.domain.Pageable

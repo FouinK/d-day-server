@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 class AskService(
     private val askRepository: AskRepository,
 ) {
-    fun validateAsk(askId: Int): Ask {
+    fun findExistsAsk(askId: Int): Ask {
         return askRepository.findById(askId)
             .orElseThrow { IllegalArgumentException("질문이 없습니다.") }
     }
