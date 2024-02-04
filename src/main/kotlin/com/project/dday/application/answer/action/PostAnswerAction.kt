@@ -1,5 +1,6 @@
 package com.project.dday.application.answer.action
 
+import com.project.dday.application.ask.port.`in`.PostAnswerUseCase
 import com.project.dday.model.Answer
 import com.project.dday.repository.AnswerRepository
 import com.project.dday.repository.AskRepository
@@ -16,9 +17,9 @@ class PostAnswerAction(
     private val askRepository: AskRepository,
     private val coupleService: CoupleService,
     private val answerRepository: AnswerRepository,
-) {
+) : PostAnswerUseCase {
     @Transactional
-    fun answer(
+    override fun answer(
         memberId: Int,
         content: String,
         askId: Int,

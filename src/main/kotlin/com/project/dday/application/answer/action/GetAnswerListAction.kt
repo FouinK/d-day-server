@@ -1,5 +1,6 @@
 package com.project.dday.application.answer.action
 
+import com.project.dday.application.answer.port.`in`.GetAnswerListUseCase
 import com.project.dday.model.Answer
 import com.project.dday.repository.AnswerRepository
 import com.project.dday.service.MemberService
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Component
 class GetAnswerListAction(
     private val memberService: MemberService,
     private val answerRepository: AnswerRepository,
-) {
-    fun getAnswerList(
+) : GetAnswerListUseCase {
+    override fun getAnswerList(
         memberId: Int,
         pageable: Pageable,
     ): Page<Answer> {

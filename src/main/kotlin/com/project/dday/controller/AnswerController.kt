@@ -1,7 +1,7 @@
 package com.project.dday.controller
 
-import com.project.dday.application.answer.action.GetAnswerListAction
-import com.project.dday.application.answer.action.PostAnswerAction
+import com.project.dday.application.answer.port.`in`.GetAnswerListUseCase
+import com.project.dday.application.ask.port.`in`.PostAnswerUseCase
 import com.project.dday.dto.AnswerRequestDto
 import com.project.dday.dto.AnswerResponseDto
 import com.project.dday.model.AnswerStatus
@@ -20,15 +20,15 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/myTestApp/server/v1/answer")
 class AnswerController(
-    private val getAnswerListAction: GetAnswerListAction,
-    private val postAnswerAction: PostAnswerAction,
+    private val getAnswerListUseCase: GetAnswerListUseCase,
+    private val postAnswerUseCase: PostAnswerUseCase,
 ) {
     @GetMapping
     fun list(
         @RequestParam("memberId") memberId: Int,
         @PageableDefault(size = 10, page = 0, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
     ): ResponseEntity<Any> {
-        val response = getAnswerListAction.getAnswerList(
+        val response = getAnswerListUseCase.getAnswerList(
             memberId = memberId,
             pageable = pageable,
         )
@@ -52,7 +52,7 @@ class AnswerController(
         @RequestParam("memberId") memberId: Int,
         @RequestBody request: AnswerRequestDto,
     ): ResponseEntity<Any> {
-        postAnswerAction.answer(
+        postAnswerUseCase.answer(
             memberId = memberId,
             content = request.content,
             askId = request.askId,
