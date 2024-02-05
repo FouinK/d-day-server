@@ -1,6 +1,6 @@
 package com.project.dday.application.answer.action
 
-import com.project.dday.application.ask.port.`in`.PostAnswerUseCase
+import com.project.dday.application.answer.port.`in`.PostAnswerUseCase
 import com.project.dday.model.Answer
 import com.project.dday.repository.AnswerRepository
 import com.project.dday.repository.AskRepository

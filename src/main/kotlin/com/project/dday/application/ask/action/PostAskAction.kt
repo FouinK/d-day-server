@@ -1,5 +1,6 @@
 package com.project.dday.application.ask.action
 
+import com.project.dday.application.ask.port.`in`.PostAskUseCase
 import com.project.dday.model.Ask
 import com.project.dday.repository.AskRepository
 import com.project.dday.service.MemberService
@@ -10,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional
 class PostAskAction(
     private val memberService: MemberService,
     private val askRepository: AskRepository,
-) {
+) : PostAskUseCase {
     @Transactional
-    fun ask(
+    override fun ask(
         memberId: Int,
         content: String,
     ) {

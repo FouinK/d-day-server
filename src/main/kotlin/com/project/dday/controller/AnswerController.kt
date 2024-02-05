@@ -1,7 +1,7 @@
 package com.project.dday.controller
 
 import com.project.dday.application.answer.port.`in`.GetAnswerListUseCase
-import com.project.dday.application.ask.port.`in`.PostAnswerUseCase
+import com.project.dday.application.answer.port.`in`.PostAnswerUseCase
 import com.project.dday.dto.AnswerRequestDto
 import com.project.dday.dto.AnswerResponseDto
 import com.project.dday.model.AnswerStatus

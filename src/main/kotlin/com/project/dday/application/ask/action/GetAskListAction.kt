@@ -1,5 +1,6 @@
 package com.project.dday.application.ask.action
 
+import com.project.dday.application.ask.port.`in`.GetAskListUseCase
 import com.project.dday.model.Ask
 import com.project.dday.repository.AskRepository
 import com.project.dday.service.MemberService
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Component
 class GetAskListAction(
     private val memberService: MemberService,
     private val askRepository: AskRepository,
-) {
-    fun getAskList(
+) : GetAskListUseCase {
+    override fun getAskList(
         memberId: Int,
         pageable: Pageable,
     ): Page<Ask> {

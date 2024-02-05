@@ -1,7 +1,7 @@
 package com.project.dday.user
 
-import com.project.dday.application.ask.action.GetAskListAction
-import com.project.dday.application.ask.action.PostAskAction
+import com.project.dday.application.ask.port.`in`.GetAskListUseCase
+import com.project.dday.application.ask.port.`in`.PostAskUseCase
 import com.project.dday.dto.AskListResponseDto
 import com.project.dday.dto.AskRequestDto
 import org.springframework.data.domain.Pageable
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/myTestApp/server/v1/ask")
 class AskController(
-    private val getAskListAction: GetAskListAction,
-    private val postAskAction: PostAskAction,
+    private val getAskListUseCase: GetAskListUseCase,
+    private val postAskUseCase: PostAskUseCase,
 ) {
     // TODO : answer이랑 ask 둘다 테이블에서 member_id 관계 끊기
     @GetMapping
@@ -28,7 +28,7 @@ class AskController(
         @RequestParam("memberId") memberId: Int,
         @PageableDefault(size = 10, page = 0, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
     ): ResponseEntity<Any> {
-        val response = getAskListAction.getAskList(
+        val response = getAskListUseCase.getAskList(
             memberId = memberId,
             pageable = pageable,
         )
@@ -51,7 +51,7 @@ class AskController(
         @RequestParam("memberId") memberId: Int,
         @RequestBody request: AskRequestDto,
     ): ResponseEntity<Any> {
-        postAskAction.ask(
+        postAskUseCase.ask(
             memberId = memberId,
             content = request.content,
         )
