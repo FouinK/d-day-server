@@ -1,6 +1,6 @@
 package com.project.dday.controller
 
-import com.project.dday.application.couple.action.PostCoupleConnectAction
+import com.project.dday.application.couple.port.`in`.PostCoupleConnectUseCase
 import com.project.dday.dto.CoupleConnectRequestDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/myTestApp/server/v1/couple")
 class CoupleController(
-    private val postCoupleConnectAction: PostCoupleConnectAction,
+    private val postCoupleConnectUseCase: PostCoupleConnectUseCase,
 ) {
     @PostMapping
     fun connect(
         @RequestParam("memberId") memberId: Int,
         @RequestBody request: CoupleConnectRequestDto,
     ): ResponseEntity<Any> {
-        postCoupleConnectAction.connect(
+        postCoupleConnectUseCase.connect(
             memberId = memberId,
             idfv = request.idfv,
         )

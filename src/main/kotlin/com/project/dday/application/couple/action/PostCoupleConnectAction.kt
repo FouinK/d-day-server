@@ -1,5 +1,6 @@
 package com.project.dday.application.couple.action
 
+import com.project.dday.application.couple.port.`in`.PostCoupleConnectUseCase
 import com.project.dday.model.Couple
 import com.project.dday.repository.CoupleRepository
 import com.project.dday.service.MemberService
@@ -11,9 +12,9 @@ import java.lang.IllegalArgumentException
 class PostCoupleConnectAction(
     private val memberService: MemberService,
     private val coupleRepository: CoupleRepository,
-) {
+) : PostCoupleConnectUseCase {
     @Transactional
-    fun connect(
+    override fun connect(
         memberId: Int,
         idfv: String,
     ) {

@@ -1,6 +1,6 @@
 package com.project.dday.user
 
-import com.project.dday.application.member.action.PostJoinAction
+import com.project.dday.application.member.port.`in`.PostJoinUseCase
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/myTestApp/server/v1/user")
 class MemberController(
-    private val postJoinAction: PostJoinAction,
+    private val postJoinUseCase: PostJoinUseCase,
 ) {
     @PostMapping
     fun join(
         @RequestParam("idfv") idfv: String,
     ): ResponseEntity<Any> {
-        postJoinAction.join(idfv)
+        postJoinUseCase.join(idfv)
         return ResponseEntity(HttpStatus.CREATED)
     }
 }
