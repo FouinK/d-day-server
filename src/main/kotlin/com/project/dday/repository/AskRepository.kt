@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface AskRepository : JpaRepository<Ask, Int> {
     fun findByMember(member: Member, pageable: Pageable): Page<Ask>
+
+    fun findByMember(member: Member): List<Ask>
 }
