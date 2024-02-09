@@ -5,15 +5,14 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "answer")
 class Answer(
-    id: Int? = null,
     content: String,
     askId: Int,
     member: Member,
 ) : BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = id
-        private set
+    @Column(name = "id", nullable = false)
+    val id: Int = 0
 
     @Column(name = "content")
     val content: String = content

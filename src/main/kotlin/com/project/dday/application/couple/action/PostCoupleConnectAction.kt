@@ -22,7 +22,7 @@ class PostCoupleConnectAction(
 
         val member2 = memberService.validateIdfvMember(idfv)
 
-        if (coupleRepository.existsByMember1OrMember2(member1.id!!, member2.id!!) ||
+        if (coupleRepository.existsByMember1OrMember2(member1.id, member2.id) ||
             coupleRepository.existsByMember1OrMember2(member2.id, member1.id)
         ) {
             throw IllegalArgumentException("이미 존재하는 커플 관계 입니다.")

@@ -34,7 +34,7 @@ class PostAnswerAction(
             throw IllegalArgumentException("나를 위한 질문이 아닙니다.")
         }
 
-        if (answerRepository.existsByAskId(ask.id!!)) {
+        if (answerRepository.existsByAskId(ask.id)) {
             throw IllegalArgumentException("이미 답변했습니다.")
         }
 
@@ -44,7 +44,7 @@ class PostAnswerAction(
 
         val newData = Answer(
             content = content,
-            askId = ask.id!!,
+            askId = ask.id,
             member = member,
         )
 
