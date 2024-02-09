@@ -1,6 +1,5 @@
-package com.project.dday.action.answer.action
+package com.project.dday.application.answer.action
 
-import com.project.dday.application.answer.action.PostAnswerAction
 import com.project.dday.application.answer.port.`in`.PostAnswerUseCase
 import com.project.dday.application.ask.action.PostAskAction
 import com.project.dday.application.ask.port.`in`.PostAskUseCase
@@ -111,5 +110,14 @@ class PostAnswerActionTest(
         // then
         assertThat(answer.content).isEqualTo(answerContent)
         assertThat(ask.status).isEqualTo(AnswerStatus.COMPLETE)
+    }
+
+    @Test
+    fun `나를 위한 질문이 아닌 질문에 답변할 경우 예외가 발생한다`() {
+        // given
+
+        // when
+
+        // then
     }
 }
