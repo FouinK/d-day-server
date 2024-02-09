@@ -4,8 +4,11 @@ import com.project.dday.application.ask.action.GetAskListAction
 import com.project.dday.application.ask.action.PostAskAction
 import com.project.dday.application.ask.port.`in`.GetAskListUseCase
 import com.project.dday.application.ask.port.`in`.PostAskUseCase
+import com.project.dday.application.couple.action.PostCoupleConnectAction
+import com.project.dday.application.couple.port.`in`.PostCoupleConnectUseCase
 import com.project.dday.fixture.MemberBuilder
 import com.project.dday.repository.AskRepository
+import com.project.dday.repository.CoupleRepository
 import com.project.dday.repository.MemberRepository
 import com.project.dday.service.MemberService
 import org.assertj.core.api.Assertions.*
@@ -21,9 +24,11 @@ class GetAnswerListActionTest(
     @Autowired val memberService: MemberService,
     @Autowired val askRepository: AskRepository,
     @Autowired val memberRepository: MemberRepository,
+    @Autowired val coupleRepository: CoupleRepository,
 ) {
     lateinit var getAskListUseCase: GetAskListUseCase
     lateinit var postAskUseCase: PostAskUseCase
+    lateinit var coupleConnectUseCase: PostCoupleConnectUseCase
 
     var memberId1: Int = 0
     var memberId2: Int = 0
@@ -60,6 +65,11 @@ class GetAnswerListActionTest(
         postAskUseCase = PostAskAction(
             memberService,
             askRepository,
+        )
+
+        coupleConnectUseCase = PostCoupleConnectAction(
+            memberService,
+            coupleRepository,
         )
     }
 
