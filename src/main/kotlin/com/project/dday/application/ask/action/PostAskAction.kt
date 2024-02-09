@@ -1,6 +1,7 @@
 package com.project.dday.application.ask.action
 
 import com.project.dday.application.ask.port.`in`.PostAskUseCase
+import com.project.dday.application.ask.port.`in`.PostAskUseCase.*
 import com.project.dday.model.Ask
 import com.project.dday.repository.AskRepository
 import com.project.dday.service.MemberService
@@ -16,7 +17,7 @@ class PostAskAction(
     override fun ask(
         memberId: Int,
         content: String,
-    ) {
+    ): PostAskResponseDto {
         val member = memberService.validateLoginMember(memberId)
 
         val newData = Ask(
@@ -24,6 +25,10 @@ class PostAskAction(
             member = member,
         )
 
-        askRepository.save(newData)
+        val ask = askRepository.save(newData)
+
+        return PostAskResponseDto(
+            askId = ask.id,
+        )
     }
 }

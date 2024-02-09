@@ -8,6 +8,7 @@ import com.project.dday.application.couple.action.PostCoupleConnectAction
 import com.project.dday.application.couple.port.`in`.PostCoupleConnectUseCase
 import com.project.dday.exception.NotFoundException
 import com.project.dday.fixture.MemberBuilder
+import com.project.dday.model.AnswerStatus
 import com.project.dday.repository.AnswerRepository
 import com.project.dday.repository.AskRepository
 import com.project.dday.repository.CoupleRepository
@@ -15,6 +16,7 @@ import com.project.dday.repository.MemberRepository
 import com.project.dday.service.AskService
 import com.project.dday.service.CoupleService
 import com.project.dday.service.MemberService
+import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -79,11 +81,6 @@ class PostAnswerActionTest(
             answerRepository,
         )
 
-        postAskUseCase.ask(
-            memberId = memberId1,
-            content = askContent,
-        )
-
         postCoupleConnectUseCase.connect(
             memberId1,
             member2.idfv,
@@ -93,18 +90,26 @@ class PostAnswerActionTest(
     @Test
     fun `나를 위한 질문에 정상 응답한다`() {
         // given
-        val member = memberRepository.findById(memberId1)
-            .orElseThrow { throw NotFoundException("존재하지 않는 멤버 아아디로 조회하려고 함.") }
-
-        val askList = askRepository.findByMember(member = member)
-
-        // when
-        postAnswerUseCase.answer(
-            memberId = memberId2,
-            content = answerContent,
-            askId = askList.first { it.member.id == memberId1 }.id,
+        val askResponseDto = postAskUseCase.ask(
+            memberId = memberId1,
+            content = askContent,
         )
 
+        // when
+        val answerResponseDto = postAnswerUseCase.answer(
+            memberId = memberId2,
+            content = answerContent,
+            askId = askResponseDto.askId,
+        )
+
+        val answer = answerRepository.findById(answerResponseDto.answerId)
+            .orElseThrow { throw NotFoundException("답변이 정상 저장되지 않았습니다.") }
+
+        val ask = askRepository.findById(askResponseDto.askId)
+            .orElseThrow { throw NotFoundException("질문이 정상 저장되지 않았습니다.") }
+
         // then
+        assertThat(answer.content).isEqualTo(answerContent)
+        assertThat(ask.status).isEqualTo(AnswerStatus.COMPLETE)
     }
 }

@@ -5,5 +5,9 @@ interface PostAnswerUseCase {
         memberId: Int,
         content: String,
         askId: Int,
+    ): PostAnswerResponseDto
+
+    class PostAnswerResponseDto(
+        val answerId: Int,
     )
 }

@@ -1,6 +1,7 @@
 package com.project.dday.application.answer.action
 
 import com.project.dday.application.answer.port.`in`.PostAnswerUseCase
+import com.project.dday.application.answer.port.`in`.PostAnswerUseCase.*
 import com.project.dday.model.Answer
 import com.project.dday.repository.AnswerRepository
 import com.project.dday.repository.AskRepository
@@ -23,7 +24,7 @@ class PostAnswerAction(
         memberId: Int,
         content: String,
         askId: Int,
-    ) {
+    ): PostAnswerResponseDto {
         val member = memberService.validateLoginMember(memberId = memberId)
 
         val ask = askService.findExistsAsk(askId = askId)
@@ -48,6 +49,10 @@ class PostAnswerAction(
             member = member,
         )
 
-        answerRepository.save(newData)
+        val answer = answerRepository.save(newData)
+
+        return PostAnswerResponseDto(
+            answerId = answer.id,
+        )
     }
 }

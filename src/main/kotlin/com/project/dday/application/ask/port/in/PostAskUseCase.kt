@@ -4,5 +4,9 @@ interface PostAskUseCase {
     fun ask(
         memberId: Int,
         content: String,
+    ): PostAskResponseDto
+
+    class PostAskResponseDto(
+        val askId: Int,
     )
 }

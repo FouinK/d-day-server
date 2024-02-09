@@ -3,6 +3,7 @@ package com.project.dday.application.ask.action
 import com.project.dday.application.ask.port.`in`.PostAskUseCase
 import com.project.dday.exception.NotFoundException
 import com.project.dday.fixture.MemberBuilder
+import com.project.dday.model.AnswerStatus
 import com.project.dday.repository.AskRepository
 import com.project.dday.repository.MemberRepository
 import com.project.dday.service.MemberService
@@ -47,24 +48,22 @@ class PostAskActionTest(
             memberService,
             askRepository,
         )
-
-        postAskUseCase.ask(
-            memberId = memberId1,
-            content = content,
-        )
     }
 
     @Test
     fun `내가 질문한 목록이 정상 저장 되었음을 확인한다`() {
-        // given
-        val member = memberRepository.findById(memberId1)
-            .orElseThrow { throw NotFoundException("존재하지 않는 멤버 아아디로 조회하려고 함.") }
+        // when
+        val askResponseDto = postAskUseCase.ask(
+            memberId = memberId1,
+            content = content,
+        )
 
         // when
-        val askList = askRepository.findByMember(member = member)
+        val ask = askRepository.findById(askResponseDto.askId)
+            .orElseThrow { throw NotFoundException("질문이 정상저장 되지 않았습니다.") }
 
         // then
-        assertThat(askList.size).isEqualTo(1)
-        assertThat(askList.first { it.member.id == memberId1 }.content).isEqualTo(content)
+        assertThat(ask.content).isEqualTo(content)
+        assertThat(ask.status).isEqualTo(AnswerStatus.READY)
     }
 }
