@@ -7,7 +7,10 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface AskRepository : JpaRepository<Ask, Int> {
-    fun findByMember(member: Member, pageable: Pageable): Page<Ask>
+    fun findAllByMember(
+        member: Member,
+        pageable: Pageable,
+    ): Page<Ask>
 
     fun findByMember(member: Member): List<Ask>
 }
