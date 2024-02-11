@@ -10,6 +10,7 @@ import com.project.dday.repository.CoupleRepository
 import com.project.dday.repository.MemberRepository
 import com.project.dday.service.MemberService
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
@@ -73,5 +74,14 @@ class GetAskListForMeActionTest(
                 memberService,
                 coupleRepository,
             )
+    }
+
+    @Test
+    fun `나의 짝꿍이 질문한 리스트는 조회가 가능하다`() {
+        // given
+
+        // when
+
+        // then
     }
 }

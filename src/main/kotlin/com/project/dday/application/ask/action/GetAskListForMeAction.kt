@@ -20,10 +20,10 @@ class GetAskListForMeAction(
         pageable: Pageable,
     ): AskListForMeResponseDto {
         val couple =
-            coupleRepository.findByMember1OrMember2(memberId, memberId)
+            coupleRepository.findByMember1Id(memberId)
                 ?: throw NotFoundException("나는 지금 커플로 맺어진 상태가 아닙니다.")
 
-        val myCoupleMemberId = if (couple.member1 == memberId) couple.member2 else couple.member1
+        val myCoupleMemberId = if (couple.member1Id == memberId) couple.member2Id else couple.member1Id
 
         val myCoupleMember = memberService.validateMember(myCoupleMemberId)
 

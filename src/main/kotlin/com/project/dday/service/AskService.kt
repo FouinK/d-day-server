@@ -18,6 +18,6 @@ class AskService(
         ask: Ask,
         couple: Couple,
     ): Boolean {
-        return ask.member.id != couple.member1 && ask.member.id != couple.member2
+        return ask.member.id != couple.member1Id && ask.member.id != couple.member2Id
     }
 }

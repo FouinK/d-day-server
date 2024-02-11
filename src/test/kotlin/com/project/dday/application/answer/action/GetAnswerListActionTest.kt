@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package com.project.dday.application.answer.action
 
 import com.project.dday.application.ask.action.GetMyAskListAction

@@ -25,7 +25,7 @@ class AskController(
     private val postAskUseCase: PostAskUseCase,
 ) {
     // TODO : answer이랑 ask 둘다 테이블에서 member_id 관계 끊기
-    @GetMapping
+    @GetMapping("/for-you")
     fun getMyAskList(
         @RequestParam("memberId") memberId: Int,
         @PageableDefault(size = 10, page = 0, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
@@ -50,12 +50,15 @@ class AskController(
         )
     }
 
-    @GetMapping
+    @GetMapping("/for-me")
     fun getAskListForMe(
         @RequestParam("memberId") memberId: Int,
-        @PageableDefault(size = 10, page = 0, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
+        @PageableDefault(size = 10, page = 0) pageable: Pageable,
     ): ResponseEntity<Any> {
-        getAskListForMeUseCase.getAskListForMe()
+        getAskListForMeUseCase.getAskListForMe(
+            memberId = memberId,
+            pageable = pageable,
+        )
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 

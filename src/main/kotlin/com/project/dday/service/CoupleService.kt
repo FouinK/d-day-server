@@ -9,11 +9,9 @@ import java.lang.IllegalArgumentException
 class CoupleService(
     private val coupleRepository: CoupleRepository,
 ) {
-
     fun validateCouple(memberId: Int): Couple {
-        return coupleRepository.findByMember1OrMember2(
-            member1 = memberId,
-            member2 = memberId,
+        return coupleRepository.findByMember1Id(
+            member1Id = memberId,
         ) ?: throw IllegalArgumentException("나는 커플 상태가 아닙니다.")
     }
 }

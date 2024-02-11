@@ -1,12 +1,12 @@
 package com.project.dday.application.couple.action
 
 import com.project.dday.application.couple.port.`in`.PostCoupleConnectUseCase
+import com.project.dday.exception.CoupleConnectException
 import com.project.dday.model.Couple
 import com.project.dday.repository.CoupleRepository
 import com.project.dday.service.MemberService
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.lang.IllegalArgumentException
 
 @Component
 class PostCoupleConnectAction(
@@ -20,19 +20,27 @@ class PostCoupleConnectAction(
     ) {
         val member1 = memberService.validateLoginMember(memberId)
 
-        val member2 = memberService.validateIdfvMember(idfv)
-
-        if (coupleRepository.existsByMember1OrMember2(member1.id, member2.id) ||
-            coupleRepository.existsByMember1OrMember2(member2.id, member1.id)
-        ) {
-            throw IllegalArgumentException("이미 존재하는 커플 관계 입니다.")
+        if (member1.idfv == idfv) {
+            throw CoupleConnectException("자기 자신과 커플을 맺을 수 없습니다.")
         }
 
-        val newData = Couple(
-            member1 = member1.id,
-            member2 = member2.id,
-        )
+        val member2 = memberService.validateIdfvMember(idfv)
 
-        coupleRepository.save(newData)
+        if (coupleRepository.existsByMember1Id(member1.id)) {
+            throw CoupleConnectException("당신은 이미 커플이 맺어진 상태입니다.")
+        }
+
+        coupleRepository.saveAll(
+            listOf(
+                Couple(
+                    member1Id = member1.id,
+                    member2Id = member2.id,
+                ),
+                Couple(
+                    member1Id = member2.id,
+                    member2Id = member1.id,
+                ),
+            ),
+        )
     }
 }

@@ -16,7 +16,7 @@ class MemberService(
 
     fun validateIdfvMember(idfv: String): Member {
         return memberRepository.findByIdfv(idfv)
-            ?: throw java.lang.IllegalArgumentException("커플 맺을 사람이 존재하지 않습니다.")
+            ?: throw NotFoundException("커플 맺을 사람이 존재하지 않습니다.")
     }
 
     fun validateMember(memberId: Int): Member {
