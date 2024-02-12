@@ -4,6 +4,7 @@ import com.project.dday.application.ask.port.`in`.GetAskListForMeUseCase
 import com.project.dday.application.ask.port.`in`.PostAskUseCase
 import com.project.dday.application.couple.action.PostCoupleConnectAction
 import com.project.dday.application.couple.port.`in`.PostCoupleConnectUseCase
+import com.project.dday.exception.NotFoundException
 import com.project.dday.fixture.MemberBuilder
 import com.project.dday.repository.AskRepository
 import com.project.dday.repository.CoupleRepository
@@ -15,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
+@Transactional
 class GetAskListForMeActionTest(
     @Autowired val memberService: MemberService,
     @Autowired val coupleRepository: CoupleRepository,
@@ -78,6 +81,30 @@ class GetAskListForMeActionTest(
 
     @Test
     fun `나의 짝꿍이 질문한 리스트는 조회가 가능하다`() {
+// given
+        val member1 =
+            memberRepository.findById(memberId1)
+                .orElseThrow { throw NotFoundException("멤버가 없습니다. 테스트 실패") }
+
+        // when
+        coupleConnectUseCase.connect(memberId = member1.id, idfv = memberIdfv2)
+
+        val askResponseDto1 =
+            postAskUseCase.ask(
+                memberId = memberId1,
+                content = askContent1,
+            )
+        val askResponseDto2 =
+            postAskUseCase.ask(
+                memberId = memberId1,
+                content = askContent2,
+            )
+
+        // then
+    }
+
+    @Test
+    fun `완전히 다른 사람이 질문한 목록을 조회하려고 하면 예외가 발생한다`() {
         // given
 
         // when

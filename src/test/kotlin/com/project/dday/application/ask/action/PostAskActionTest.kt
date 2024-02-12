@@ -12,8 +12,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
+@Transactional
 class PostAskActionTest(
     @Autowired val memberService: MemberService,
     @Autowired val askRepository: AskRepository,
@@ -29,38 +31,43 @@ class PostAskActionTest(
 
     @BeforeEach
     fun setUp() {
-        val member1 = memberRepository.save(
-            MemberBuilder(
-                idfv = memberIdfv1,
-            ).build(),
-        )
+        val member1 =
+            memberRepository.save(
+                MemberBuilder(
+                    idfv = memberIdfv1,
+                ).build(),
+            )
 
-        val member2 = memberRepository.save(
-            MemberBuilder(
-                idfv = memberIdfv2,
-            ).build(),
-        )
+        val member2 =
+            memberRepository.save(
+                MemberBuilder(
+                    idfv = memberIdfv2,
+                ).build(),
+            )
 
         memberId1 = member1.id
         memberId2 = member2.id
 
-        postAskUseCase = PostAskAction(
-            memberService,
-            askRepository,
-        )
+        postAskUseCase =
+            PostAskAction(
+                memberService,
+                askRepository,
+            )
     }
 
     @Test
     fun `내가 질문한 목록이 정상 저장 되었음을 확인한다`() {
         // when
-        val askResponseDto = postAskUseCase.ask(
-            memberId = memberId1,
-            content = content,
-        )
+        val askResponseDto =
+            postAskUseCase.ask(
+                memberId = memberId1,
+                content = content,
+            )
 
         // when
-        val ask = askRepository.findById(askResponseDto.askId)
-            .orElseThrow { throw NotFoundException("질문이 정상저장 되지 않았습니다.") }
+        val ask =
+            askRepository.findById(askResponseDto.askId)
+                .orElseThrow { throw NotFoundException("질문이 정상저장 되지 않았습니다.") }
 
         // then
         assertThat(ask.content).isEqualTo(content)

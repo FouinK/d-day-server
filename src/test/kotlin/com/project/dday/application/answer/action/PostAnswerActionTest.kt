@@ -15,15 +15,15 @@ import com.project.dday.repository.MemberRepository
 import com.project.dday.service.AskService
 import com.project.dday.service.CoupleService
 import com.project.dday.service.MemberService
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
+import org.springframework.transaction.annotation.Transactional
 
-@ActiveProfiles("test")
 @SpringBootTest
+@Transactional
 class PostAnswerActionTest(
     @Autowired val memberService: MemberService,
     @Autowired val askService: AskService,
@@ -47,38 +47,43 @@ class PostAnswerActionTest(
 
     @BeforeEach
     fun setUp() {
-        val member1 = memberRepository.save(
-            MemberBuilder(
-                idfv = memberIdfv1,
-            ).build(),
-        )
+        val member1 =
+            memberRepository.save(
+                MemberBuilder(
+                    idfv = memberIdfv1,
+                ).build(),
+            )
 
-        val member2 = memberRepository.save(
-            MemberBuilder(
-                idfv = memberIdfv2,
-            ).build(),
-        )
+        val member2 =
+            memberRepository.save(
+                MemberBuilder(
+                    idfv = memberIdfv2,
+                ).build(),
+            )
 
         memberId1 = member1.id
         memberId2 = member2.id
 
-        postAskUseCase = PostAskAction(
-            memberService,
-            askRepository,
-        )
+        postAskUseCase =
+            PostAskAction(
+                memberService,
+                askRepository,
+            )
 
-        postCoupleConnectUseCase = PostCoupleConnectAction(
-            memberService,
-            coupleRepository,
-        )
+        postCoupleConnectUseCase =
+            PostCoupleConnectAction(
+                memberService,
+                coupleRepository,
+            )
 
-        postAnswerUseCase = PostAnswerAction(
-            memberService,
-            askService,
-            askRepository,
-            coupleService,
-            answerRepository,
-        )
+        postAnswerUseCase =
+            PostAnswerAction(
+                memberService,
+                askService,
+                askRepository,
+                coupleService,
+                answerRepository,
+            )
 
         postCoupleConnectUseCase.connect(
             memberId1,
@@ -89,23 +94,27 @@ class PostAnswerActionTest(
     @Test
     fun `나를 위한 질문에 정상 응답한다`() {
         // given
-        val askResponseDto = postAskUseCase.ask(
-            memberId = memberId1,
-            content = askContent,
-        )
+        val askResponseDto =
+            postAskUseCase.ask(
+                memberId = memberId1,
+                content = askContent,
+            )
 
         // when
-        val answerResponseDto = postAnswerUseCase.answer(
-            memberId = memberId2,
-            content = answerContent,
-            askId = askResponseDto.askId,
-        )
+        val answerResponseDto =
+            postAnswerUseCase.answer(
+                memberId = memberId2,
+                content = answerContent,
+                askId = askResponseDto.askId,
+            )
 
-        val answer = answerRepository.findById(answerResponseDto.answerId)
-            .orElseThrow { throw NotFoundException("답변이 정상 저장되지 않았습니다.") }
+        val answer =
+            answerRepository.findById(answerResponseDto.answerId)
+                .orElseThrow { throw NotFoundException("답변이 정상 저장되지 않았습니다.") }
 
-        val ask = askRepository.findById(askResponseDto.askId)
-            .orElseThrow { throw NotFoundException("질문이 정상 저장되지 않았습니다.") }
+        val ask =
+            askRepository.findById(askResponseDto.askId)
+                .orElseThrow { throw NotFoundException("질문이 정상 저장되지 않았습니다.") }
 
         // then
         assertThat(answer.content).isEqualTo(answerContent)
