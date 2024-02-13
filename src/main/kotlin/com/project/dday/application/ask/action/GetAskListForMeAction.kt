@@ -2,7 +2,7 @@ package com.project.dday.application.ask.action
 
 import com.project.dday.application.ask.port.`in`.GetAskListForMeUseCase
 import com.project.dday.dto.AskListForMeResponseDto
-import com.project.dday.exception.NotFoundException
+import com.project.dday.exception.NoCoupleException
 import com.project.dday.repository.AskRepository
 import com.project.dday.repository.CoupleRepository
 import com.project.dday.service.MemberService
@@ -21,7 +21,7 @@ class GetAskListForMeAction(
     ): AskListForMeResponseDto {
         val couple =
             coupleRepository.findByMember1Id(memberId)
-                ?: throw NotFoundException("나는 지금 커플로 맺어진 상태가 아닙니다.")
+                ?: throw NoCoupleException("나는 지금 커플로 맺어진 상태가 아닙니다.")
 
         val myCoupleMemberId = if (couple.member1Id == memberId) couple.member2Id else couple.member1Id
 
