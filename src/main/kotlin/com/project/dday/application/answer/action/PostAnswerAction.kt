@@ -1,7 +1,10 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package com.project.dday.application.answer.action
 
 import com.project.dday.application.answer.port.`in`.PostAnswerUseCase
 import com.project.dday.application.answer.port.`in`.PostAnswerUseCase.*
+import com.project.dday.exception.AnswerException
 import com.project.dday.model.Answer
 import com.project.dday.repository.AnswerRepository
 import com.project.dday.repository.AskRepository
@@ -32,22 +35,23 @@ class PostAnswerAction(
         val couple = coupleService.validateCouple(memberId = memberId)
 
         if (askService.validateAskForMe(ask, couple)) {
-            throw IllegalArgumentException("나를 위한 질문이 아닙니다.")
+            throw AnswerException("나를 위한 질문이 아닙니다.")
         }
 
         if (answerRepository.existsByAskId(ask.id)) {
-            throw IllegalArgumentException("이미 답변했습니다.")
+            throw AnswerException("이미 답변했습니다.")
         }
 
         ask.answer()
 
         askRepository.save(ask)
 
-        val newData = Answer(
-            content = content,
-            askId = ask.id,
-            member = member,
-        )
+        val newData =
+            Answer(
+                content = content,
+                askId = ask.id,
+                member = member,
+            )
 
         val answer = answerRepository.save(newData)
 

@@ -5,6 +5,8 @@ import com.project.dday.application.ask.action.PostAskAction
 import com.project.dday.application.ask.port.`in`.PostAskUseCase
 import com.project.dday.application.couple.action.PostCoupleConnectAction
 import com.project.dday.application.couple.port.`in`.PostCoupleConnectUseCase
+import com.project.dday.exception.AnswerException
+import com.project.dday.exception.NoCoupleException
 import com.project.dday.exception.NotFoundException
 import com.project.dday.fixture.MemberBuilder
 import com.project.dday.model.AnswerStatus
@@ -18,6 +20,7 @@ import com.project.dday.service.MemberService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
@@ -39,9 +42,13 @@ class PostAnswerActionTest(
 
     var memberId1: Int = 0
     var memberId2: Int = 0
+    var memberId3: Int = 0
+    var memberId4: Int = 0
 
     val memberIdfv1 = "윤성현"
     val memberIdfv2 = "로이"
+    val memberIdfv3 = "완전 모르는 사람"
+    val memberIdfv4 = "완전 모르는 사람과 커플인 사람"
     val askContent = "질문 내용"
     val answerContent = "응답 내용"
 
@@ -61,8 +68,24 @@ class PostAnswerActionTest(
                 ).build(),
             )
 
+        val member3 =
+            memberRepository.save(
+                MemberBuilder(
+                    idfv = memberIdfv3,
+                ).build(),
+            )
+
+        val member4 =
+            memberRepository.save(
+                MemberBuilder(
+                    idfv = memberIdfv4,
+                ).build(),
+            )
+
         memberId1 = member1.id
         memberId2 = member2.id
+        memberId3 = member3.id
+        memberId4 = member4.id
 
         postAskUseCase =
             PostAskAction(
@@ -122,11 +145,45 @@ class PostAnswerActionTest(
     }
 
     @Test
+    fun `커플 상태가 아닌 경우 답변하려고 할 시 예외가 발생한다`() {
+        // given
+        val askResponseDto =
+            postAskUseCase.ask(
+                memberId = memberId1,
+                content = askContent,
+            )
+
+        // when & then
+        assertThrows<NoCoupleException> {
+            postAnswerUseCase.answer(
+                memberId = memberId3,
+                content = "나도 좋아",
+                askId = askResponseDto.askId,
+            )
+        }.message.apply { assertThat("나는 커플 상태가 아닙니다.") }
+    }
+
+    @Test
     fun `나를 위한 질문이 아닌 질문에 답변할 경우 예외가 발생한다`() {
         // given
+        postCoupleConnectUseCase.connect(
+            memberId3,
+            memberIdfv4,
+        )
 
-        // when
+        val askResponseDto =
+            postAskUseCase.ask(
+                memberId = memberId1,
+                content = askContent,
+            )
 
-        // then
+        // when & then
+        assertThrows<AnswerException> {
+            postAnswerUseCase.answer(
+                memberId = memberId3,
+                content = "나도 좋아",
+                askId = askResponseDto.askId,
+            )
+        }.message.apply { assertThat("나를 위한 질문이 아닙니다.") }
     }
 }
