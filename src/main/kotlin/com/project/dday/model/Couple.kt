@@ -25,4 +25,8 @@ class Couple(
     @Column(name = "deConnect", nullable = false)
     var deConnect: Boolean = deConnect
         private set
+
+    fun deConnect() {
+        this.deConnect = true
+    }
 }

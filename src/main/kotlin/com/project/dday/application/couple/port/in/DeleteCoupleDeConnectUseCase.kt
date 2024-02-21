@@ -1,5 +1,5 @@
 package com.project.dday.application.couple.port.`in`
 
 interface DeleteCoupleDeConnectUseCase {
-    fun deConnect()
+    fun deConnect(memberId: Int)
 }

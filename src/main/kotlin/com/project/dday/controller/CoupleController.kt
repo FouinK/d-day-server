@@ -35,7 +35,7 @@ class CoupleController(
     fun deConnect(
         @RequestParam("memberId") memberId: Int,
     ): ResponseEntity<Any> {
-        deleteCoupleDeConnectUseCase.deConnect()
+        deleteCoupleDeConnectUseCase.deConnect(memberId)
         return ResponseEntity.noContent().build()
     }
 }
