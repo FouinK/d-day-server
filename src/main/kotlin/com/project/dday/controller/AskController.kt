@@ -40,12 +40,12 @@ class AskController(
                 page = response.totalPages,
                 totalElement = response.totalElements.toInt(),
                 items =
-                    response.content.map {
-                        AskListResponseDto.Item(
-                            content = it.content,
-                            status = it.status,
-                        )
-                    },
+                response.content.map {
+                    AskListResponseDto.Item(
+                        content = it.content,
+                        status = it.status,
+                    )
+                },
             ),
         )
     }

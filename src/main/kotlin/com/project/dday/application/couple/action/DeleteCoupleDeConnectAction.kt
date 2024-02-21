@@ -6,5 +6,6 @@ import org.springframework.stereotype.Component
 @Component
 class DeleteCoupleDeConnectAction : DeleteCoupleDeConnectUseCase {
     override fun deConnect() {
+
     }
 }

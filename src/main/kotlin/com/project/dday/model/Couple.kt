@@ -7,6 +7,7 @@ import jakarta.persistence.*
 class Couple(
     member1Id: Int,
     member2Id: Int,
+    deConnect: Boolean = false,
 ) : BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +20,9 @@ class Couple(
 
     @Column(name = "member2_id")
     var member2Id: Int = member2Id
+        private set
+
+    @Column(name = "deConnect", nullable = false)
+    var deConnect: Boolean = deConnect
         private set
 }
