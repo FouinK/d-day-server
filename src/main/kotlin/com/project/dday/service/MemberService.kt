@@ -11,7 +11,7 @@ class MemberService(
 ) {
     fun validateLoginMember(memberId: Int): Member {
         return memberRepository.findById(memberId)
-            .orElseThrow { IllegalArgumentException("") }
+            .orElseThrow { throw NotFoundException("멤버가 존재하지 않습니다.") }
     }
 
     fun validateIdfvMember(idfv: String): Member {
