@@ -18,6 +18,6 @@ class MemberController(
         @RequestParam("idfv") idfv: String,
     ): ResponseEntity<Any> {
         postJoinUseCase.join(idfv)
-        return ResponseEntity(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 }
