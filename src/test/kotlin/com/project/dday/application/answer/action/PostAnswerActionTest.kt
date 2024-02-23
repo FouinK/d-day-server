@@ -186,4 +186,30 @@ class PostAnswerActionTest(
             )
         }.message.apply { assertThat("나를 위한 질문이 아닙니다.") }
     }
+
+    @Test
+    fun `이미 답변한 질문에 답변시도 시 예외가 발생한다`() {
+        // given
+        val askResponseDto =
+            postAskUseCase.ask(
+                memberId = memberId1,
+                content = askContent,
+            )
+
+        // when
+        postAnswerUseCase.answer(
+            memberId = memberId2,
+            content = "니도 좋아",
+            askId = askResponseDto.askId,
+        )
+
+        // then
+        assertThrows<AnswerException> {
+            postAnswerUseCase.answer(
+                memberId = memberId2,
+                content = "니도 좋아",
+                askId = askResponseDto.askId,
+            )
+        }.message.apply { assertThat("이미 답변했습니다.") }
+    }
 }
