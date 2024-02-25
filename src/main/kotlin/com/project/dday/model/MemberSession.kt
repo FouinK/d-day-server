@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.index.Indexed
 @TypeAlias("mallMemberSession")
 class MemberSession(
     @Id
-    var sessionId: String,
+    var id: String,
     @Indexed
     var memberId: Int,
 )

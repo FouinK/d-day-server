@@ -1,6 +1,7 @@
 package com.project.dday.application.member.action
 
 import com.project.dday.application.member.port.`in`.PostJoinUseCase
+import com.project.dday.exception.NotFoundException
 import com.project.dday.model.Member
 import com.project.dday.model.MemberSession
 import com.project.dday.repository.MemberRepository
@@ -18,37 +19,42 @@ class PostJoinAction(
     private val customAuthenticationManagerService: CustomAuthenticationManagerService,
 ) : PostJoinUseCase {
     override fun join(idfv: String): PostJoinUseCase.PostJoinResponseDto {
-        if (!memberRepository.existsByIdfv(idfv = idfv)) {
-            val newMember =
-                Member(
-                    idfv = idfv,
-                )
-            memberRepository.save(newMember)
-        }
+        val newMember =
+            if (!memberRepository.existsByIdfv(idfv = idfv)) {
+                val newMember =
+                    Member(
+                        idfv = idfv,
+                    )
+                memberRepository.save(newMember)
+            } else {
+                memberRepository.findByIdfv(idfv)
+                    ?: throw NotFoundException("멤버가 존재하지 않습니다. 시스템 오류입니다.")
+            }
 
         val authentication =
             customAuthenticationManagerService.authenticate(
-                UsernamePasswordAuthenticationToken(idfv, idfv),
+                UsernamePasswordAuthenticationToken(newMember.id, newMember.id),
             )
 
         SecurityContextHolder.getContext().authentication = authentication
 
-        val mallMemberSession = memberSessionRepository.findByMemberId(authentication.credentials as Int)
+        val memberSession = memberSessionRepository.findByMemberId(authentication.credentials.toString().toInt())
 
-        if (mallMemberSession != null) {
-            memberSessionRepository.deleteById(mallMemberSession.sessionId)
+        if (memberSession != null) {
+            memberSessionRepository.deleteById(memberSession.id)
         }
 
         val newData =
             MemberSession(
-                sessionId = UUID.randomUUID().toString(),
-                memberId = authentication.credentials as Int,
+                id = UUID.randomUUID().toString(),
+                memberId = authentication.credentials.toString().toInt(),
             )
 
         memberSessionRepository.save(newData)
 
         return PostJoinUseCase.PostJoinResponseDto(
-            sessionId = newData.sessionId,
+            memberId = newData.memberId,
+            sessionId = newData.id,
         )
     }
 }

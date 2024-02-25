@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service
 class CustomUserDetailsService(
     private val memberRepository: MemberRepository,
 ) : UserDetailsService {
-    override fun loadUserByUsername(idfv: String): UserDetails {
+    override fun loadUserByUsername(memberId: String): UserDetails {
         val member =
-            memberRepository.findByIdfv(idfv)
-                ?: throw UsernameNotFoundException(idfv + "가 존재하지 않습니다")
+            memberRepository.findById(memberId.toInt())
+                .orElseThrow { throw UsernameNotFoundException(memberId + "가 존재하지 않습니다") }
 
         try {
             return MemberCustomUserDetails(
@@ -23,7 +23,7 @@ class CustomUserDetailsService(
                 loginPassword = member.idfv,
             )
         } catch (e: Exception) {
-            throw UsernameNotFoundException(idfv + "가 존재하지 않습니다")
+            throw UsernameNotFoundException(memberId + "가 존재하지 않습니다")
         }
     }
 }
