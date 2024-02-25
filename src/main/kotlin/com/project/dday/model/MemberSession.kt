@@ -5,8 +5,8 @@ import org.springframework.data.annotation.TypeAlias
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.index.Indexed
 
-@RedisHash("mallMemberSession")
-@TypeAlias("mallMemberSession")
+@RedisHash("memberSession")
+@TypeAlias("memberSession")
 class MemberSession(
     @Id
     var id: String,
