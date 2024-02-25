@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/myTestApp/server/v1/user")
+@RequestMapping("/myTestApp/server/v1/member")
 class MemberController(
     private val postJoinUseCase: PostJoinUseCase,
 ) {
@@ -17,7 +17,6 @@ class MemberController(
     fun join(
         @RequestParam("idfv") idfv: String,
     ): ResponseEntity<Any> {
-        postJoinUseCase.join(idfv)
-        return ResponseEntity.status(HttpStatus.CREATED).build()
+        return ResponseEntity.status(HttpStatus.CREATED).body(postJoinUseCase.join(idfv))
     }
 }
