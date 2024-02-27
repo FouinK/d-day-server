@@ -15,7 +15,7 @@ class FilterConfig(
     fun authFilter(): FilterRegistrationBean<AuthFilter> {
         val registrationBean = FilterRegistrationBean<AuthFilter>()
         registrationBean.filter = AuthFilter(memberSessionRepository, objectMapper)
-        registrationBean.addUrlPatterns("/api/ch/*") // 필터가 적용될 URL 패턴 지정
+        registrationBean.addUrlPatterns("/myTestApp/*")
         return registrationBean
     }
 }

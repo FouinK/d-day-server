@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/myTestApp/server/v1/member")
+@RequestMapping("/first/server/v1/member")
 class MemberController(
     private val postJoinUseCase: PostJoinUseCase,
 ) {
