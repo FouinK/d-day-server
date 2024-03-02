@@ -35,7 +35,7 @@ class SecurityConfig {
             .csrf { obj: CsrfConfigurer<HttpSecurity> -> obj.disable() }
             .authorizeRequests { auth: ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry ->
                 auth
-                    .requestMatchers("/api/**").permitAll()
+                    .requestMatchers("/**").permitAll()
                     .anyRequest().authenticated()
             }
         return http.build()
