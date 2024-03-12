@@ -21,7 +21,7 @@ class AuthFilter(
     ) {
         val uri = request.requestURI
 
-        if (!uri.startsWith("/myTestApp/server/v1/member")) {
+        if (uri.startsWith("/myTestApp/server/v1/member")) {
             filterChain.doFilter(request, response)
             return
         }
