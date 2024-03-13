@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -53,11 +52,11 @@ class AnswerController(
 
     @PostMapping
     fun answer(
-        @RequestParam("memberId") memberId: Int,
+        @Member currentMember: CurrentMember,
         @RequestBody request: AnswerRequestDto,
     ): ResponseEntity<Any> {
         postAnswerUseCase.answer(
-            memberId = memberId,
+            memberId = currentMember.memberId,
             content = request.content,
             askId = request.askId,
         )
