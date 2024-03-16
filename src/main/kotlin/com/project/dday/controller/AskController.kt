@@ -54,11 +54,11 @@ class AskController(
 
     @GetMapping("/for-me")
     fun getAskListForMe(
-        @RequestParam("memberId") memberId: Int,
+        @Member currentMember: CurrentMember,
         @PageableDefault(size = 10, page = 0) pageable: Pageable,
     ): ResponseEntity<Any> {
         getAskListForMeUseCase.getAskListForMe(
-            memberId = memberId,
+            memberId = currentMember.memberId,
             pageable = pageable,
         )
         return ResponseEntity.status(HttpStatus.CREATED).build()
