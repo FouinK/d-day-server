@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -66,11 +65,11 @@ class AskController(
 
     @PostMapping
     fun ask(
-        @RequestParam("memberId") memberId: Int,
+        @Member currentMember: CurrentMember,
         @RequestBody request: AskRequestDto,
     ): ResponseEntity<Any> {
         postAskUseCase.ask(
-            memberId = memberId,
+            memberId = currentMember.memberId,
             content = request.content,
         )
         return ResponseEntity.status(HttpStatus.CREATED).build()
