@@ -2,6 +2,8 @@ package com.project.dday.controller
 
 import com.project.dday.application.couple.port.`in`.DeleteCoupleDeConnectUseCase
 import com.project.dday.application.couple.port.`in`.PostCoupleConnectUseCase
+import com.project.dday.config.annotation.Member
+import com.project.dday.config.dto.CurrentMember
 import com.project.dday.dto.CoupleConnectRequestDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,11 +22,11 @@ class CoupleController(
 ) {
     @PostMapping
     fun connect(
-        @RequestParam("memberId") memberId: Int,
+        @Member currentMember: CurrentMember,
         @RequestBody request: CoupleConnectRequestDto,
     ): ResponseEntity<Any> {
         postCoupleConnectUseCase.connect(
-            memberId = memberId,
+            memberId = currentMember.memberId,
             idfv = request.idfv,
         )
 
